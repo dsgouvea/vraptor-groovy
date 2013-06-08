@@ -18,59 +18,52 @@ import br.com.caelum.vraptor.proxy.ProxyInvocationException
 import br.com.caelum.vraptor.proxy.SuperMethod
 
 @PrototypeScoped
-public class GroovyJavassistProxifier
-	implements Proxifier {
+public class GroovyProxifier implements Proxifier {
 
-	private static final Logger logger = LoggerFactory.getLogger(GroovyJavassistProxifier.class);
+	private static final Logger logger = LoggerFactory.getLogger(GroovyProxifier.class)
 
-	/**
-	 * Methods like toString and finalize will be ignored.
-	 */
-	private static final List<Method> OBJECT_METHODS = Arrays.asList(GroovyObject.class.getDeclaredMethods());
+	private static final List<Method> OBJECT_METHODS = Arrays.asList(GroovyObject.class.getDeclaredMethods())
 
-	/**
-	 * Do not proxy these methods.
-	 */
 	private static final MethodFilter IGNORE_BRIDGE_AND_OBJECT_METHODS = new MethodFilter() {
 		public boolean isHandled(Method method) {
 			if (method.name == "getMetaClass" || method.name.endsWith("getStaticMetaClass"))
 				return false
-			return !method.isBridge() && !OBJECT_METHODS.contains(method);
+			return !method.isBridge() && !OBJECT_METHODS.contains(method)
 		}
-	};
+	}
 
-	private final InstanceCreator instanceCreator;
+	private final InstanceCreator instanceCreator
 
-	public GroovyJavassistProxifier(InstanceCreator instanceCreator) {
-		this.instanceCreator = instanceCreator;
+	public GroovyProxifier(InstanceCreator instanceCreator) {
+		this.instanceCreator = instanceCreator
 	}
 
 	public <T> T proxify(Class<T> type, MethodInvocation<? super T> handler) {
-		final ProxyFactory factory = new ProxyFactory();
-		factory.setFilter(IGNORE_BRIDGE_AND_OBJECT_METHODS);
+		final ProxyFactory factory = new ProxyFactory()
+		factory.setFilter(IGNORE_BRIDGE_AND_OBJECT_METHODS)
 
 		if (type.isInterface()) {
-			factory.setInterfaces([ type ]);
+			factory.setInterfaces([ type ])
 		} else {
-			factory.setSuperclass(type);
+			factory.setSuperclass(type)
 		}
 
-		Class<?> proxyClass = factory.createClass();
+		Class<?> proxyClass = factory.createClass()
 
-		Object proxyInstance = instanceCreator.instanceFor(proxyClass);
-		setHandler(proxyInstance, handler);
+		Object proxyInstance = instanceCreator.instanceFor(proxyClass)
+		setHandler(proxyInstance, handler)
 
-		logger.debug("a proxy for {} is created as {}", type, proxyClass);
+		logger.debug("a proxy for {} is created as {}", type, proxyClass)
 
-		return type.cast(proxyInstance);
+		return type.cast(proxyInstance)
 	}
 
 	public boolean isProxy(Object o) {
-		return o != null && ProxyObject.class.isAssignableFrom(o.getClass());
+		return o != null && ProxyObject.class.isAssignableFrom(o.getClass())
 	}
 	
 	private <T> void setHandler(Object proxyInstance, final MethodInvocation<? super T> handler) {
-		ProxyObject proxyObject = (ProxyObject) proxyInstance;
+		ProxyObject proxyObject = (ProxyObject) proxyInstance
 
 		proxyObject.setHandler(new MethodHandler() {
 			public Object invoke(final Object self, final Method thisMethod, final Method proceed, Object[] args)
@@ -79,13 +72,13 @@ public class GroovyJavassistProxifier
 				return handler.intercept(self, thisMethod, args, new SuperMethod() {
 					public Object invoke(Object proxy, Object[] arguments) {
 						try {
-							return proceed.invoke(proxy, arguments);
+							return proceed.invoke(proxy, arguments)
 						} catch (Throwable throwable) {
-							throw new ProxyInvocationException(throwable);
+							throw new ProxyInvocationException(throwable)
 						}
 					}
-				});
+				})
 			}
-		});
+		})
 	}
 }
