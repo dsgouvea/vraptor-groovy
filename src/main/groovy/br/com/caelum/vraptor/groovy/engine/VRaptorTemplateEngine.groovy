@@ -1,30 +1,30 @@
-package br.com.caelum.vraptor.groovy
+package br.com.caelum.vraptor.groovy.engine
 
 import groovy.text.SimpleTemplateEngine
 import groovy.text.Template
 
 import org.codehaus.groovy.control.CompilationFailedException
 
-class OneTemplateEngine extends SimpleTemplateEngine {
+class VRaptorTemplateEngine extends SimpleTemplateEngine {
 
 	private static int counter = 1
 
 	private GroovyShell groovyShell
 	
-	OneTemplateEngine() {
+	VRaptorTemplateEngine() {
 		this(GroovyShell.class.getClassLoader())
 	}
 
-	OneTemplateEngine(boolean verbose) {
+	VRaptorTemplateEngine(boolean verbose) {
 		this(GroovyShell.class.getClassLoader())
 		setVerbose(verbose);
 	}
 
-	OneTemplateEngine(ClassLoader parentLoader) {
+	VRaptorTemplateEngine(ClassLoader parentLoader) {
 		this(new GroovyShell(parentLoader))
 	}
 
-	OneTemplateEngine(GroovyShell groovyShell) {
+	VRaptorTemplateEngine(GroovyShell groovyShell) {
 		super(groovyShell);
 		
 		this.groovyShell = groovyShell
@@ -32,7 +32,7 @@ class OneTemplateEngine extends SimpleTemplateEngine {
 
 	@Override
 	public Template createTemplate(Reader reader) throws CompilationFailedException, IOException {
-		OneTemplate template = new OneTemplate()
+		VRaptorTemplate template = new VRaptorTemplate()
 		String script = template.parse(reader)
 		try {
 			template.script = groovyShell.parse(script, "OneTemplateScript" + counter++ + ".groovy")

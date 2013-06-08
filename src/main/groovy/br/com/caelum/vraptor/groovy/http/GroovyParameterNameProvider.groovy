@@ -7,10 +7,12 @@ import java.lang.reflect.Method
 import br.com.caelum.vraptor.http.DefaultParameterNameProvider
 import br.com.caelum.vraptor.interceptor.TypeNameExtractor
 import br.com.caelum.vraptor.ioc.ApplicationScoped
+import br.com.caelum.vraptor.ioc.Component
 
 import com.thoughtworks.paranamer.AdaptiveParanamer
 import com.thoughtworks.paranamer.Paranamer
 
+@Component
 @ApplicationScoped
 class GroovyParameterNameProvider extends DefaultParameterNameProvider {
 

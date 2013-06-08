@@ -1,4 +1,4 @@
-package br.com.caelum.vraptor.groovy
+package br.com.caelum.vraptor.groovy.engine
 
 import java.io.IOException;
 import java.io.Reader;
@@ -8,11 +8,11 @@ import org.codehaus.groovy.runtime.InvokerHelper;
 import groovy.text.SimpleTemplateEngine.SimpleTemplate;
 import groovy.text.Template;
 
-class OneTemplate implements Template {
+class VRaptorTemplate implements Template {
 
 	protected Script script
 
-	OneTemplate() {
+	VRaptorTemplate() {
 	}
 
 	public Writable make() {
