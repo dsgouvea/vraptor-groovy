@@ -4,6 +4,11 @@ import groovy.util.GroovyScriptEngine.ScriptCacheEntry
 
 import org.codehaus.groovy.runtime.IOGroovyMethods
 
+/**
+ * Using do find and load resources from WEB-INF/
+ * 
+ * @author dgouvea
+ */
 class VRaptorScriptEngine extends GroovyScriptEngine {
 
 	private final def lazyAttributes = [:]

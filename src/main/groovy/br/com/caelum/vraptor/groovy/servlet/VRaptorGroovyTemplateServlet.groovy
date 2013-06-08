@@ -3,6 +3,12 @@ package br.com.caelum.vraptor.groovy.servlet
 import groovy.servlet.ServletBinding
 import groovy.servlet.TemplateServlet
 
+
+/**
+ * Used to add request and session attributes in gsp scope 
+ *  
+ * @author dgouvea
+ */
 class VRaptorGroovyTemplateServlet extends TemplateServlet {
 	
 	VRaptorGroovyTemplateServlet() {

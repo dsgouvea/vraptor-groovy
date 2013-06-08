@@ -8,6 +8,13 @@ import org.codehaus.groovy.runtime.InvokerHelper;
 import groovy.text.SimpleTemplateEngine.SimpleTemplate;
 import groovy.text.Template;
 
+/**
+ * Using to transform GSP in Groovy, like transform jsp in java
+ * 
+ * Based on Grails GSP Code
+ * 
+ * @author dgouvea
+ */
 class VRaptorTemplate implements Template {
 
 	protected Script script
@@ -21,6 +28,11 @@ class VRaptorTemplate implements Template {
 
 	public Writable make(final Map map) {
 		return new Writable() {
+			/**
+			 * Write the template document with the set binding applied to the writer.
+			 *
+			 * @see groovy.lang.Writable#writeTo(java.io.Writer)
+			 */
 			public Writer writeTo(Writer writer) {
 				Binding binding;
 				if (map == null)
@@ -35,6 +47,11 @@ class VRaptorTemplate implements Template {
 				return writer;
 			}
 
+			/**
+			 * Convert the template and binding into a result String.
+			 *
+			 * @see java.lang.Object#toString()
+			 */
 			public String toString() {
 				StringWriter sw = new StringWriter();
 				writeTo(sw);
@@ -43,6 +60,14 @@ class VRaptorTemplate implements Template {
 		};
 	}
 
+	/**
+	 * Parse the text document looking for <% or <%= and then call out to the appropriate handler, otherwise copy the text directly
+	 * into the script while escaping quotes.
+	 *
+	 * @param reader a reader for the template text
+	 * @return the parsed text
+	 * @throws IOException if something goes wrong
+	 */
 	protected String parse(Reader reader) throws IOException {
 		if (!reader.markSupported()) {
 			reader = new BufferedReader(reader);
@@ -124,6 +149,13 @@ class VRaptorTemplate implements Template {
 		}
 	}
 
+	/**
+	 * Closes the currently open write and writes out the following text as a GString expression until it reaches an end %>.
+	 *
+	 * @param reader a reader for the template text
+	 * @param sw     a StringWriter to write expression content
+	 * @throws IOException if something goes wrong
+	 */
 	private void groovyExpression(Reader reader, StringWriter sw) throws IOException {
 		sw.write("\${");
 		int c;
@@ -143,6 +175,13 @@ class VRaptorTemplate implements Template {
 		sw.write("}");
 	}
 
+	/**
+	 * Closes the currently open write and writes the following text as normal Groovy script code until it reaches an end %>.
+	 *
+	 * @param reader a reader for the template text
+	 * @param sw     a StringWriter to write expression content
+	 * @throws IOException if something goes wrong
+	 */
 	private void groovySection(Reader reader, StringWriter sw) throws IOException {
 		sw.write("\"\"\");");
 		int c;

@@ -5,6 +5,12 @@ import groovy.text.Template
 
 import org.codehaus.groovy.control.CompilationFailedException
 
+
+/**
+ * Used to create VRaptor Tempalte
+ *  
+ * @author dgouvea
+ */
 class VRaptorTemplateEngine extends SimpleTemplateEngine {
 
 	private static int counter = 1
