@@ -20,11 +20,12 @@ class VRaptorGroovyTemplateServlet extends TemplateServlet {
 		super.setVariables(binding);
 		
 		def request = binding.getVariable("request")
-		def e = request.getAttributeNames()
-		while (e.hasMoreElements()) {
-			def attributeName = e.nextElement()
-			def attr = request.getAttribute(attributeName)
-			binding.setVariable(attributeName, attr)
+		
+		def session = [:]
+		binding.setVariable("session", session)
+		request.session.attributeNames.each { name ->
+			def val = request.session.getAttribute(name)
+			session[name] = val
 		}
 		
 		def param = [:]
@@ -37,11 +38,11 @@ class VRaptorGroovyTemplateServlet extends TemplateServlet {
 			param[name] = val
 		}
 		
-		def session = [:]
-		binding.setVariable("session", session)
-		request.session.attributeNames.each { name ->
-			def val = request.session.getAttribute(name)
-			session[name] = val
+		def e = request.getAttributeNames()
+		while (e.hasMoreElements()) {
+			def attributeName = e.nextElement()
+			def attr = request.getAttribute(attributeName)
+			binding.setVariable(attributeName, attr)
 		}
 		
 		binding.setVariable("scope", binding.variables)
