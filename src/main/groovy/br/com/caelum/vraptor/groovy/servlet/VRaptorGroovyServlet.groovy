@@ -17,12 +17,13 @@ class VRaptorGroovyServlet extends GroovyServlet {
 		super.setVariables(binding);
 		
 		def request = binding.getVariable("request")
+		binding.setVariable("session", request.session)
 		
-		def session = [:]
-		binding.setVariable("session", session)
+		def sessionScope = [:]
+		binding.setVariable("sessionScope", sessionScope)
 		request.session.attributeNames.each { name ->
 			def val = request.session.getAttribute(name)
-			session[name] = val
+			sessionScope[name] = val
 		}
 		
 		def param = [:]
@@ -35,14 +36,16 @@ class VRaptorGroovyServlet extends GroovyServlet {
 			param[name] = val
 		}
 		
+		def requestScope = [:]
+		binding.setVariable("requestScope", requestScope)
+		
 		def e = request.getAttributeNames()
 		while (e.hasMoreElements()) {
 			def attributeName = e.nextElement()
 			def attr = request.getAttribute(attributeName)
 			binding.setVariable(attributeName, attr)
+			requestScope[attributeName] = attr
 		}
-		
-		binding.setVariable("scope", binding.variables)
 	}
 	
 	@Override
