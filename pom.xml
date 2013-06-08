@@ -41,6 +41,17 @@
 						<groupId>org.codehaus.groovy</groupId>
 						<artifactId>groovy-eclipse-compiler</artifactId>
 						<version>2.7.0-01</version>
+						<exclusions>
+							<exclusion>
+								<groupId>org.codehaus.groovy</groupId>
+								<artifactId>groovy-eclipse-batch</artifactId>
+							</exclusion>
+						</exclusions>
+					</dependency>
+					<dependency>
+						<groupId>org.codehaus.groovy</groupId>
+						<artifactId>groovy-eclipse-batch</artifactId>
+						<version>2.1.1-01</version>
 					</dependency>
 				</dependencies>
 			</plugin>
@@ -93,7 +104,6 @@
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
 			<version>2.1.1</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -111,18 +121,13 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>3.2.3.RELEASE</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>br.com.caelum</groupId>
 			<artifactId>vraptor</artifactId>
 			<version>3.5.1</version>
 			<scope>compile</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>com.google.code.guice</groupId>
-					<artifactId>guice</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 	</dependencies>
 </project>
