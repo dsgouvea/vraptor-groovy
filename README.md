@@ -3,6 +3,33 @@ vraptor-groovy
 
 vRaptor Groovy Plugin
 
+Installing vRaptor Groovy
+
+Add the configuration in web.xml after VRaptor filter:
+````
+	<servlet>
+		<servlet-name>Groovlet</servlet-name>
+		<servlet-class>br.com.caelum.vraptor.groovy.servlet.VRaptorGroovyServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Groovlet</servlet-name>
+		<url-pattern>*.groovy</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>Template</servlet-name>
+		<servlet-class>br.com.caelum.vraptor.groovy.servlet.VRaptorGroovyTemplateServlet</servlet-class>
+		<init-param>
+			<param-name>template.engine</param-name>
+			<param-value>br.com.caelum.vraptor.groovy.engine.VRaptorTemplateEngine</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Template</servlet-name>
+		<url-pattern>*.gsp</url-pattern>
+	</servlet-mapping>
+````
+
+
 Controller
 ````
 @Resource
